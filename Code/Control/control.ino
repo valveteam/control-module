@@ -1,11 +1,13 @@
 #include <Wire.h>
 #include <BH1750.h>
 
-BH1750 lightMeter;
+//Pin Assignments
 int solenoidPin = 2;
 int analogPin1 = A0;
-int val1=0;
 int analogPin2=A1;
+
+BH1750 lightMeter;
+int val1=0;
 int val2=0;
 
 void setup() {
