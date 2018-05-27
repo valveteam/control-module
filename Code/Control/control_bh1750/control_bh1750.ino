@@ -1,6 +1,8 @@
 #include <Wire.h>
 #include <BH1750.h>
 
+BH1750 lightMeter;
+
 //INITIALISATION
 //Pin Assignments
 int dviPin = 4;
@@ -14,8 +16,7 @@ int debugPin1 = 12;
 int debugPin2 = 13;
 int analogPin1 = A0;
 int analogPin2 = A1;
-
-BH1750 lightMeter;
+//Variables
 int lbound = 0;
 int ubound = 0;
 int tau = 0;
@@ -62,7 +63,6 @@ void loop()
   lux = lightMeter.readLightLevel();
   Serial.print("Light: ");
   Serial.print(lux);
-  //Serial.println(" lx");
   
   //Reading knobs & calculating tau wrt to lux levels
   if(lux > ubound)
