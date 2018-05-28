@@ -17,9 +17,9 @@ int debugPin2 = 13;
 int analogPin1 = A0;
 int analogPin2 = A1;
 //Variables
-int lbound = 0;
-int ubound = 0;
-int tau = 0;
+float lbound = 0;
+float ubound = 0;
+float tau = 0;
 uint8_t lux = 0;
 
 //SETUP
@@ -73,29 +73,23 @@ void loop()
   {
     tau = 1000*(lux/ubound);
   };
-  //serial.println(val1);
-  //serial.println(val2);
 
   //control for solenoid
-  //TO BE COMPLETED
   if(tau<lbound)
   {
     //turning solenoid off
     digitalWrite(sPin2, LOW);
     digitalWrite(sPin3, LOW);
+    digitalWrite(LED_BUILTIN, LOW);
   }
   else
   {
-    //turning on with some PWM
-    digitalWrite(sPin2, HIGH);   // turn the LED on (HIGH is the voltage level)
-    delay(tau);                       // wait for a second
-    digitalWrite(sPin3, LOW);    // turn the LED off by making the voltage LOW
+    digitalWrite(sPin2, HIGH);
+    digitalWrite(LED_BUILTIN, HIGH); 
+    delay(tau);                       
+    digitalWrite(sPin3, LOW);
+    digitalWrite(LED_BUILTIN, LOW);
     delay(1000-tau);
   };
   
-  //blink
-  digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
-  delay(1000);                       // wait for a second
-  digitalWrite(LED_BUILTIN, LOW);    // turn the LED off by making the voltage LOW
-  delay(1000);                       // wait for a second
 }
