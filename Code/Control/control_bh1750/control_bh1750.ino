@@ -1,7 +1,7 @@
 #include <Wire.h>
 #include <BH1750.h>
 
-BH1750 lightMeter;
+BH1750 lightMeter(0x5c);
 
 //INITIALISATION
 //Pin Assignments
@@ -50,44 +50,46 @@ void setup()
   digitalWrite(sPin2, LOW);
   digitalWrite(sPin3, LOW);
   digitalWrite(sPin4, LOW);
-
-  //tuning circuit
-  lbound = analogRead(analogPin1) + 500; // lower bound from 500 - 1500
-  ubound = (analogRead(analogPin2)*2) + 19000; //upper bound from 19000 - 21000
 }
 
 //LOOP
 void loop() 
-{
+{ 
+  //tuning circuit
+  lbound = analogRead(analogPin1) + 500; // lower bound from 500 - 1500
+  ubound = (analogRead(analogPin2)*2) + 19000; //upper bound from 19000 - 21000 
+  
   //BH1750 - reading light levels
   lux = lightMeter.readLightLevel();
   Serial.print("Light: ");
-  Serial.print(lux);
+  Serial.println(lux);
   
   //Reading knobs & calculating tau wrt to lux levels
   if(lux > ubound)
   {
+    //solenoid at max
     tau = 1000;
-  }
-  else
-  {
-    tau = 1000*(lux/ubound);
-  };
-
-  //control for solenoid
-  if(tau<lbound)
+    digitalWrite(sPin2, HIGH);
+    digitalWrite(LED_BUILTIN, HIGH); 
+    delay(tau);                       
+    digitalWrite(sPin2, LOW);
+    digitalWrite(LED_BUILTIN, LOW);
+    delay(1000-tau);
+  } else if(lux < lbound)
   {
     //turning solenoid off
     digitalWrite(sPin2, LOW);
     digitalWrite(sPin3, LOW);
     digitalWrite(LED_BUILTIN, LOW);
-  }
-  else
+    delay(1000);
+  } else
   {
+    //solenoid varying
+    tau = 1000*(lux/(ubound));
     digitalWrite(sPin2, HIGH);
     digitalWrite(LED_BUILTIN, HIGH); 
     delay(tau);                       
-    digitalWrite(sPin3, LOW);
+    digitalWrite(sPin2, LOW);
     digitalWrite(LED_BUILTIN, LOW);
     delay(1000-tau);
   };

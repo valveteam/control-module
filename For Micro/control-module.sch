@@ -608,10 +608,6 @@ Text GLabel 5850 3450 0    60   Input ~ 0
 DEBUG1
 Text GLabel 7750 3450 2    60   Input ~ 0
 DEBUG2
-Text GLabel 5900 2650 0    60   Input ~ 0
-INT
-Text GLabel 6200 2750 0    60   Input ~ 0
-DVI
 Text GLabel 5900 2450 0    60   Input ~ 0
 SDAB
 Text GLabel 6200 2550 0    60   Input ~ 0
@@ -661,6 +657,62 @@ NoConn ~ 7550 2650
 NoConn ~ 7550 2750
 NoConn ~ 7550 2850
 NoConn ~ 7550 2950
+$Comp
+L Q_NMOS_DGS Q1
+U 1 1 5B0C07DB
+P 6750 4850
+F 0 "Q1" H 6950 4900 50  0000 L CNN
+F 1 "NMOS" H 6950 4800 50  0000 L CNN
+F 2 "TO_SOT_Packages_SMD:SOT-23_Handsoldering" H 6950 4950 50  0001 C CNN
+F 3 "" H 6750 4850 50  0001 C CNN
+	1    6750 4850
+	1    0    0    -1  
+$EndComp
+Text GLabel 5900 2650 0    60   Input ~ 0
+INT/M
+Text GLabel 6550 4850 0    60   Input ~ 0
+INT/M
+Text GLabel 6200 2750 0    60   Input ~ 0
+DVI/M
+Text GLabel 6850 4500 1    60   Input ~ 0
+INT
+$Comp
+L GND #PWR020
+U 1 1 5B0C1583
+P 6850 5200
+F 0 "#PWR020" H 6850 4950 50  0001 C CNN
+F 1 "GND" H 6850 5050 50  0000 C CNN
+F 2 "" H 6850 5200 50  0001 C CNN
+F 3 "" H 6850 5200 50  0001 C CNN
+	1    6850 5200
+	1    0    0    -1  
+$EndComp
+$Comp
+L Q_NMOS_DGS Q2
+U 1 1 5B0C16A2
+P 7850 4850
+F 0 "Q2" H 8050 4900 50  0000 L CNN
+F 1 "NMOS" H 8050 4800 50  0000 L CNN
+F 2 "TO_SOT_Packages_SMD:SOT-23_Handsoldering" H 8050 4950 50  0001 C CNN
+F 3 "" H 7850 4850 50  0001 C CNN
+	1    7850 4850
+	1    0    0    -1  
+$EndComp
+Text GLabel 7650 4850 0    60   Input ~ 0
+DVI/M
+Text GLabel 7950 4500 1    60   Input ~ 0
+DVI
+$Comp
+L GND #PWR021
+U 1 1 5B0C1811
+P 7950 5200
+F 0 "#PWR021" H 7950 4950 50  0001 C CNN
+F 1 "GND" H 7950 5050 50  0000 C CNN
+F 2 "" H 7950 5200 50  0001 C CNN
+F 3 "" H 7950 5200 50  0001 C CNN
+	1    7950 5200
+	1    0    0    -1  
+$EndComp
 Wire Wire Line
 	3800 1450 3800 1350
 Wire Wire Line
@@ -738,4 +790,14 @@ Wire Wire Line
 	5900 2650 6200 2650
 Wire Wire Line
 	6200 2450 5900 2450
+Wire Wire Line
+	6850 4500 6850 4650
+Wire Wire Line
+	7950 4500 7950 4650
+Wire Wire Line
+	7950 5050 7950 5200
+Wire Wire Line
+	6850 5200 6850 5050
+Text Notes 7050 4050 0    60   ~ 0
+Buffer circuits\n
 $EndSCHEMATC
