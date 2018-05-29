@@ -1,4 +1,4 @@
-update=5/29/2018 11:36:29 AM
+update=Tuesday, 29 May 2018 'pmt' 15:14:52
 version=1
 last_client=kicad
 [cvpcb]
@@ -65,3 +65,4 @@ LibName33=valves
 LibName34=C:/Users/tooyi/Dropbox/tfpb/parts-library/valveteam
 LibName35=C:/Users/tooyi/Downloads/arduino_micro_shield-master/arduino_micro_shield
 LibName36=//cued-fs/users/general/je369/windows-home/Documents/TechForPoorestBillion/Parts Library/valveteam
+LibName37=/Users/joshua/Dropbox/Cambridge Coursework/Part IIA/GM2 Technology for Poorest Billion/KiCad Libraries/valveteam-library/valveteam
