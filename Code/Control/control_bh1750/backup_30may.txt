@@ -6,8 +6,7 @@ BH1750 lightMeter(0x5c);
 //INITIALISATION
 //Pin Assignments
 int dviPin = 4;
-int en1Pin = 5;
-int en2Pin = A2;
+int enPin = 5;
 int intPin = 6;
 int sPin1 = 8;
 int sPin2 = 9;
@@ -17,12 +16,10 @@ int debugPin1 = 12;
 int debugPin2 = 13;
 int analogPin1 = A0;
 int analogPin2 = A1;
-int analogPin3 = A3;
 //Variables
-float lBound = 0;
-float uBound = 0;
-float pWidth = 0;
-float tau=0;
+float lbound = 0;
+float ubound = 0;
+float tau = 0;
 uint16_t lux = 0;
 
 //SETUP
@@ -32,8 +29,7 @@ void setup()
 
   // put your setup code here, to run once:
   pinMode(dviPin, OUTPUT);
-  pinMode(en1Pin, OUTPUT);
-  pinMode(en2Pin, OUTPUT);
+  pinMode(enPin, OUTPUT);
   pinMode(intPin, OUTPUT);
   pinMode(sPin1, OUTPUT);
   pinMode(sPin2, OUTPUT);
@@ -59,42 +55,42 @@ void setup()
 //LOOP
 void loop() 
 { 
-  //Changing pulse width
-  pWidth = 1000 + (10*analogRead(analogPin3)); //goes from 1 Hz to 0.1 Hz.
-  
   //tuning circuit
-  lBound = analogRead(analogPin1) + 500; // lower bound from 500 - 1500
-  uBound = (analogRead(analogPin2)*2) + 19000; //upper bound from 19000 - 21000 
+  lbound = analogRead(analogPin1) + 500; // lower bound from 500 - 1500
+  ubound = (analogRead(analogPin2)*2) + 19000; //upper bound from 19000 - 21000 
   
   //BH1750 - reading light levels
   lux = lightMeter.readLightLevel();
-  Serial.print("Light: ");  Serial.println(lux);
-
+  Serial.print("Light: ");
+  Serial.println(lux);
   
   //Reading knobs & calculating tau wrt to lux levels
-  if(lux > uBound) //abpods tau being larger than pWidth
+  if(lux > ubound)
   {
-    //solenoid fully open
-    digitalWrite(sPin2, HIGH);
-    digitalWrite(sPin3, LOW);
-    digitalWrite(LED_BUILTIN, HIGH);
-    delay(pWidth);
-  } else if(lux < lBound) //avoids the negative tau values
-  {
-    //solenoid fully closed
-    digitalWrite(sPin2, LOW);
-    digitalWrite(sPin3, LOW);
-    digitalWrite(LED_BUILTIN, LOW);
-    delay(pWidth);
-  } else
-  {
-    //solenoid varying
-    tau = pWidth*((lux-lBound)/(uBound-lBound)); //goes to zero when lux is at lBound and to one when lux is at uBound
+    //solenoid at max
+    tau = 1000;
     digitalWrite(sPin2, HIGH);
     digitalWrite(LED_BUILTIN, HIGH); 
     delay(tau);                       
     digitalWrite(sPin2, LOW);
     digitalWrite(LED_BUILTIN, LOW);
-    delay(pWidth-tau);
+    delay(1000-tau);
+  } else if(lux < lbound)
+  {
+    //turning solenoid off
+    digitalWrite(sPin2, LOW);
+    digitalWrite(sPin3, LOW);
+    digitalWrite(LED_BUILTIN, LOW);
+    delay(1000);
+  } else
+  {
+    //solenoid varying
+    tau = 1000*(lux/(ubound));
+    digitalWrite(sPin2, HIGH);
+    digitalWrite(LED_BUILTIN, HIGH); 
+    delay(tau);                       
+    digitalWrite(sPin2, LOW);
+    digitalWrite(LED_BUILTIN, LOW);
+    delay(1000-tau);
   };
 }
