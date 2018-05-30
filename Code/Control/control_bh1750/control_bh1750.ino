@@ -1,6 +1,7 @@
 #include <Wire.h>
 #include <BH1750.h>
 
+// address from datasheet
 BH1750 lightMeter(0x5c);
 
 //INITIALISATION
@@ -18,6 +19,7 @@ int debugPin2 = 13;
 int analogPin1 = A0;
 int analogPin2 = A1;
 int analogPin3 = A3;
+
 //Variables
 float lBound = 0;
 float uBound = 0;
@@ -60,30 +62,29 @@ void setup()
 void loop() 
 { 
   //Changing pulse width
-  pWidth = 1000 + (10*analogRead(analogPin3)); //goes from 1 Hz to 0.1 Hz.
+  // note that analog read is between 0 and 1023
+  pWidth = 1000 + (9000*analogRead(analogPin3)/1023); //goes from 1 Hz to 0.1 Hz.
   
   //tuning circuit
-  lBound = analogRead(analogPin1) + 500; // lower bound from 500 - 1500
-  uBound = (analogRead(analogPin2)*2) + 19000; //upper bound from 19000 - 21000 
+  lBound = analogRead(analogPin1) + 500; // lower bound from 500 - 1523
+  uBound = (analogRead(analogPin2)*2) + 19000; //upper bound from 19000 - 21046 
   
   //BH1750 - reading light levels
   lux = lightMeter.readLightLevel();
-  Serial.print("Light: ");  Serial.println(lux);
+  Serial.print("Light: ");  
+  Serial.println(lux);
 
-  
   //Reading knobs & calculating tau wrt to lux levels
   if(lux > uBound) //abpods tau being larger than pWidth
   {
     //solenoid fully open
     digitalWrite(sPin2, HIGH);
-    digitalWrite(sPin3, LOW);
     digitalWrite(LED_BUILTIN, HIGH);
     delay(pWidth);
   } else if(lux < lBound) //avoids the negative tau values
   {
     //solenoid fully closed
     digitalWrite(sPin2, LOW);
-    digitalWrite(sPin3, LOW);
     digitalWrite(LED_BUILTIN, LOW);
     delay(pWidth);
   } else
