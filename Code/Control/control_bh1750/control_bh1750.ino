@@ -26,6 +26,9 @@ float uBound = 0;
 float pWidth = 0;
 float tau=0;
 uint16_t lux = 0;
+float luxAvg = 0;
+int i = 0;
+float percentage =0;
 
 //SETUP
 void setup() 
@@ -63,31 +66,41 @@ void loop()
 { 
   //Changing pulse width
   // note that analog read is between 0 and 1023
-  pWidth = 1000 + (9000*analogRead(analogPin3)/1023); //goes from 1 Hz to 0.1 Hz.
+  pWidth = 1000 + (9000.00*analogRead(analogPin3)/1023.00); //goes from 1 Hz to 0.1 Hz.
   
   //tuning circuit
   lBound = analogRead(analogPin1) + 500; // lower bound from 500 - 1523
   uBound = (analogRead(analogPin2)*2) + 19000; //upper bound from 19000 - 21046 
-  
-  //BH1750 - reading light levels
-  lux = lightMeter.readLightLevel();
-  Serial.print("Light: ");  
-  Serial.println(lux);
 
+  //BH1750 - reading light levels
+  //Averages the light level wrt pWidth
+  luxAvg=0;
+  while (i<pWidth)
+  {
+    lux = lightMeter.readLightLevel();
+    luxAvg = luxAvg+lux;
+    i++;
+  };
+  luxAvg = luxAvg/pWidth;
+
+  i=0;
+  
   //Reading knobs & calculating tau wrt to lux levels
-  if(lux > uBound) //abpods tau being larger than pWidth
+  if(lux > uBound) //avoids case tau larger pWidth
   {
     //solenoid fully open
+    tau = pWidth;
     digitalWrite(sPin2, HIGH);
     digitalWrite(LED_BUILTIN, HIGH);
     delay(pWidth);
-  } else if(lux < lBound) //avoids the negative tau values
+  } else if(lux < lBound) //avoids cause tau less than pWidth
   {
     //solenoid fully closed
+    tau = 0;
     digitalWrite(sPin2, LOW);
     digitalWrite(LED_BUILTIN, LOW);
     delay(pWidth);
-  } else
+  } else 
   {
     //solenoid varying
     tau = pWidth*((lux-lBound)/(uBound-lBound)); //goes to zero when lux is at lBound and to one when lux is at uBound
@@ -98,4 +111,17 @@ void loop()
     digitalWrite(LED_BUILTIN, LOW);
     delay(pWidth-tau);
   };
+
+  percentage = (tau*100)/pWidth;  
+  //Reading Serial Port for Debug
+  Serial.print("Period: ");  
+  Serial.print(pWidth/1000);
+  Serial.print(" || "); 
+  Serial.print("Light: ");  
+  Serial.print(luxAvg); 
+   Serial.print(" || "); 
+  Serial.print("State of Valve: ");  
+  Serial.print(percentage); 
+  Serial.println("%"); 
+  
 }
