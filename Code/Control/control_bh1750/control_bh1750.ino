@@ -119,7 +119,13 @@ void loop()
   Serial.print(" || "); 
   Serial.print("Light: ");  
   Serial.print(luxAvg); 
-   Serial.print(" || "); 
+   Serial.print(" || ");
+   Serial.print("Upper Bound: ");  
+  Serial.print(uBound);
+  Serial.print(" || "); 
+  Serial.print("Lower Bound: ");  
+  Serial.print(lBound);
+  Serial.print(" || ");  
   Serial.print("State of Valve: ");  
   Serial.print(percentage); 
   Serial.println("%"); 
