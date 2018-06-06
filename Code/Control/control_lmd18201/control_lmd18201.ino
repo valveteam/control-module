@@ -1,3 +1,5 @@
+// NOTE: This file pinouts is currently set up to control the LMD18201 H=Bridge - needs to be adapted for the other one!!!!!
+
 #include <Wire.h>
 #include <BH1750.h>
 
@@ -10,9 +12,13 @@ int dviPin = 4;
 int en1Pin = 5;
 int en2Pin = A2;
 int intPin = 6;
+//direction
 int sPin1 = 8;
+// brake
 int sPin2 = 9;
+// this is the PWM output for the LMD18201
 int sPin3 = 10;
+// this is the thermal flag input for the LMD18201
 int sPin4 = 11;
 int debugPin1 = 12;
 int debugPin2 = 13;
@@ -43,7 +49,7 @@ void setup()
   pinMode(sPin1, OUTPUT);
   pinMode(sPin2, OUTPUT);
   pinMode(sPin3, OUTPUT);
-  pinMode(sPin4, OUTPUT);
+  pinMode(sPin4, INPUT);
   pinMode(debugPin1, OUTPUT);
   pinMode(debugPin2, OUTPUT);
   pinMode(LED_BUILTIN, OUTPUT);
@@ -55,10 +61,12 @@ void setup()
   Serial.println(F("BH1750 Test"));
 
   //Setup of valve is OFF
+  // set brake and direction low. 
   digitalWrite(sPin1, LOW);
   digitalWrite(sPin2, LOW);
+
+  // default: valve closed
   digitalWrite(sPin3, LOW);
-  digitalWrite(sPin4, LOW);
 }
 
 //LOOP
@@ -92,24 +100,24 @@ void loop()
   {
     //solenoid fully open
     tau = pWidth;
-    digitalWrite(sPin2, HIGH);
+    digitalWrite(sPin3, HIGH);
     digitalWrite(LED_BUILTIN, HIGH);
     delay(pWidth);
   } else if(lux < lBound) //avoids cause tau less than pWidth
   {
     //solenoid fully closed
     tau = 0;
-    digitalWrite(sPin2, LOW);
+    digitalWrite(sPin3, LOW);
     digitalWrite(LED_BUILTIN, LOW);
     delay(pWidth);
   } else 
   {
     //solenoid varying
     tau = pWidth*((lux-lBound)/(uBound-lBound)); //goes to zero when lux is at lBound and to one when lux is at uBound
-    digitalWrite(sPin2, HIGH);
+    digitalWrite(sPin3, HIGH);
     digitalWrite(LED_BUILTIN, HIGH); 
     delay(tau);                       
-    digitalWrite(sPin2, LOW);
+    digitalWrite(sPin3, LOW);
     digitalWrite(LED_BUILTIN, LOW);
     delay(pWidth-tau);
   };
