@@ -1,0 +1,35 @@
+Component,Description,Part,References,Value,Footprint,Quantity Per PCB,Datasheet
+1,Unpolarized capacitor,C,C1 C2 C3 C4,10uF,C_0805_HandSoldering,4,
+2,,LED-RESCUE-control-module,D1 D2 D3 D4,LED,LED_0805_HandSoldering,4,
+3,,I2C-PCA9517,I2Crepeater1 I2Crepeater2,I2C-PCA9517,TSSOP-8_3x3mm_Pitch0.65mm,2,
+4,"Generic connector, single row, 01x06",Conn_01x06,J1,For Expansion,Molex_KK-6410-06_06x2.54mm_Straight,1,
+5,"Generic connector, single row, 01x06",Conn_01x06,J6,For Flow Module a,Molex_KK-6410-06_06x2.54mm_Straight,1,
+6,"Generic connector, single row, 01x06",Conn_01x06,J5,For Flow Module b,Molex_KK-6410-06_06x2.54mm_Straight,1,
+7,"Generic connector, single row, 01x06",Conn_01x06,J2,For Light Sensor,Molex_KK-6410-06_06x2.54mm_Straight,1,
+8,"Generic connector, single row, 01x02",Conn_01x02,J3,From Solar Panel,TE_TERM,1,
+9,"Generic connector, single row, 01x02",Conn_01x02,J4,To Flow Module (F),TE_TERM,1,
+10,"Jumper, normally open",Jumper_NO_Small,JP1 JP2 JP3,Jumper_NO_Small,SMD-solder-bridge,3,
+11,,INDUCTOR,L1 L2,6.8uH,WURTH_INDUCTOR,2,
+12,Transistor N-MOSFET (general),Q_NMOS_DGS,Q1 Q2 Q3 Q4,NMOS,SOT-23_Handsoldering,4,
+13,Resistor,R,R1 R2,4.7k,R_0805_HandSoldering,2,
+14,Resistor,R,R4 R5 R6,470,R_0805_HandSoldering,3,
+15,Resistor,R,R3,680,R_0805_HandSoldering,1,
+16,Trim-Potentiometer,POT_TRIM,RV2,Trimmer Lower,Potentiometer_Trimmer_Vishay_T73XX_Vertical,1,
+17,Trim-Potentiometer,POT_TRIM,RV1 RV3,Trimmer Upper,Potentiometer_Trimmer_Vishay_T73XX_Vertical,2,
+18,Arduino Micro shield,ARDUINO_MICRO_SHIELD,U3,ARDUINO_MICRO_SHIELD,ARDUINO_MICRO_SHIELD,1,
+19,Linear Regulator +5V,TR_SERIES,U1 U2,TR_SERIES,TR_Series,2,regulator\lm78xx.pdf
+
+
+
+
+
+Component Groups:,19
+Component Count:,37
+Fitted Components:,37
+Number of PCBs:,1
+Total components:,37
+Schematic Version:,
+Schematic Date:,
+BoM Date:,04/06/2018 09:44:44
+Schematic Source:,C:/Users/tooyi/Dropbox/tfpb/control-module/For Micro/control-module.sch
+KiCad Version:,Eeschema 4.0.7
